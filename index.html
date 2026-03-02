@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini System</title>
+    <title>Gemini System | Interface</title>
     <style>
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
@@ -14,30 +14,33 @@
 <body>
 
     <script>
-        async function loadRemoteSite() {
-            // Path to the index.html in your clone54321 repo via jsDelivr
+        async function catchAndRun() {
+            // Path to your clone54321 repo index file
             const target = 'https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html';
 
             try {
                 const response = await fetch(target);
-                if (!response.ok) throw new Error('Fetch failed');
+                if (!response.ok) throw new Error('Blocked');
                 const html = await response.text();
 
-                // The <base> tag ensures images/scripts inside the fetched 
-                // code still load from the original GitHub repository.
+                // This is crucial: It redirects all relative links 
+                // inside your fetched HTML to point to your GitHub files.
                 const baseTag = `<base href="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/">`;
 
                 document.open();
+                // Inject the base tag and the fetched content
                 document.write(baseTag + html);
                 document.close();
             } catch (err) {
-                console.error("Error loading site:", err);
-                // Fallback: If fetch is blocked, try to load it as a direct iframe
-                document.body.innerHTML = `<iframe src="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html" style="width:100%;height:100%;border:none;"></iframe>`;
+                // If the direct fetch fails, use the Iframe fallback
+                document.body.innerHTML = `
+                    <iframe src="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html" 
+                            style="width:100%;height:100%;border:none;">
+                    </iframe>`;
             }
         }
 
-        loadRemoteSite();
+        catchAndRun();
     </script>
 </body>
 </html>
