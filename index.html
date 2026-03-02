@@ -2,45 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini System | Interface</title>
+    <title>Gemini | Bootloader</title>
     <style>
-        body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            background-color: #000; overflow: hidden; 
-        }
+        body { background: #000; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
+        .dot { width: 4px; height: 4px; background: #111; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
+    <div class="dot"></div>
 
     <script>
-        async function catchAndRun() {
-            // Path to your clone54321 repo index file
+        async function initGemini() {
             const target = 'https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html';
 
             try {
+                // 1. Fetch the code
                 const response = await fetch(target);
-                if (!response.ok) throw new Error('Blocked');
+                if (!response.ok) throw new Error();
                 const html = await response.text();
 
-                // This is crucial: It redirects all relative links 
-                // inside your fetched HTML to point to your GitHub files.
-                const baseTag = `<base href="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/">`;
+                // 2. JavaScript Popup Prompt
+                const proceed = confirm("Ready to Execute Gemini?");
 
-                document.open();
-                // Inject the base tag and the fetched content
-                document.write(baseTag + html);
-                document.close();
+                if (proceed) {
+                    // 3. Prepare the code with the Base Tag to fix images/links
+                    const baseTag = `<base href="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/">`;
+                    const fullCode = baseTag + html;
+
+                    // 4. Create a Blob (virtual file)
+                    const blob = new Blob([fullCode], { type: 'text/html' });
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    // 5. Open in a new about:blank tab
+                    const newWin = window.open('about:blank', '_blank');
+                    
+                    if (newWin) {
+                        newWin.location.href = blobUrl;
+                    } else {
+                        alert("Popup blocked! Please allow popups for this site.");
+                    }
+                }
             } catch (err) {
-                // If the direct fetch fails, use the Iframe fallback
-                document.body.innerHTML = `
-                    <iframe src="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html" 
-                            style="width:100%;height:100%;border:none;">
-                    </iframe>`;
+                console.error("Execution failed.");
             }
         }
 
-        catchAndRun();
+        // Run the logic as soon as the page loads
+        window.onload = initGemini;
     </script>
 </body>
 </html>
