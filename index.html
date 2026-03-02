@@ -15,7 +15,7 @@
     <script>
         async function initGemini() {
             // Back to the standard link without the ?v= date string
-            const target = 'https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html';
+            const target = 'https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/clone.html';
 
             try {
                 // 1. Fetch the code
@@ -28,7 +28,7 @@
 
                 if (proceed) {
                     // 3. Prepare the code with the Base Tag
-                    const baseTag = `<base href="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html">`;
+                    const baseTag = `<base href="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/clone.html">`;
                     const fullCode = baseTag + html;
 
                     // 4. Create a Blob (virtual file)
