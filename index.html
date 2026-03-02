@@ -14,6 +14,7 @@
 
     <script>
         async function initGemini() {
+            // Back to the standard link without the ?v= date string
             const target = 'https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/index.html';
 
             try {
@@ -26,7 +27,7 @@
                 const proceed = confirm("Ready to Execute Gemini?");
 
                 if (proceed) {
-                    // 3. Prepare the code with the Base Tag to fix images/links
+                    // 3. Prepare the code with the Base Tag
                     const baseTag = `<base href="https://cdn.jsdelivr.net/gh/exoticstecvr/clone54321@main/">`;
                     const fullCode = baseTag + html;
 
@@ -48,7 +49,6 @@
             }
         }
 
-        // Run the logic as soon as the page loads
         window.onload = initGemini;
     </script>
 </body>
